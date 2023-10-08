@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:password@172.25.153.182:5432/postgres"
+}
+
+model e01_cliente {
+  nro_cliente  Int            @id(map: "pk_e01_cliente")
+  nombre       String         @db.VarChar(45)
+  apellido     String         @db.VarChar(45)
+  direccion    String         @db.VarChar(45)
+  activo       Int            @db.SmallInt
+  e01_factura  e01_factura[]
+  e01_telefono e01_telefono[]
+}
+
+model e01_detalle_factura {
+  nro_factura     Int
+  codigo_producto Int
+  nro_item        Int
+  cantidad        Float
+  e01_factura     e01_factura  @relation(fields: [nro_factura], references: [nro_factura], onDelete: Cascade, map: "fk_e01_detalle_factura_factura")
+  e01_producto    e01_producto @relation(fields: [codigo_producto], references: [codigo_producto], onDelete: Cascade, map: "fk_e01_detalle_factura_producto")
+
+  @@id([nro_factura, codigo_producto], map: "pk_e01_detalle_factura")
+}
+
+model e01_factura {
+  nro_factura         Int                   @id(map: "pk_e01_factura")
+  fecha               DateTime              @db.Date
+  total_sin_iva       Float
+  iva                 Float
+  total_con_iva       Float?
+  nro_cliente         Int
+  e01_detalle_factura e01_detalle_factura[]
+  e01_cliente         e01_cliente           @relation(fields: [nro_cliente], references: [nro_cliente], onDelete: Cascade, map: "fk_e01_factura_cliente")
+}
+
+model e01_producto {
+  codigo_producto     Int                   @id(map: "pk_e01_producto")
+  marca               String                @db.VarChar(45)
+  nombre              String                @db.VarChar(45)
+  descripcion         String                @db.VarChar(45)
+  precio              Float
+  stock               Int
+  e01_detalle_factura e01_detalle_factura[]
+}
+
+model e01_telefono {
+  codigo_area  Int
+  nro_telefono Int
+  tipo         String      @db.Char(1)
+  nro_cliente  Int
+  e01_cliente  e01_cliente @relation(fields: [nro_cliente], references: [nro_cliente], onDelete: Cascade, map: "fk_e01_telefono_cliente")
+
+  @@id([codigo_area, nro_telefono], map: "pk_e01_telefono")
+}
