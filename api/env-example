@@ -1,0 +1,5 @@
+# PostgreSQL database url
+POSTGRESQL_URL=postgresql://{user}:{pass}@{host}:{port}/{database}
+
+# MongoDB databse url
+MONGODB_URL=
