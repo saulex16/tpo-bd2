@@ -25,6 +25,27 @@ app.get('/clientes/:id', async (req, res) => {
         })
 
     res.json(client)
+    const clients = await prisma.e01_cliente.findUnique({
+        where: { nro_cliente: Number(id) },
+    })
+    res.json(clients)
+})
+
+app.post('/clientes', async (req, res) => {
+    const { nombre, apellido, direccion, activo } = req.body
+    try {
+        const client = await prisma.e01_cliente.create({
+            data: {
+                nombre,
+                apellido,
+                direccion,
+                activo,
+            },
+        })
+        res.json(client)
+    } catch (error) {
+        res.status(400).json({ error: error })
+    }
 })
 
 app.put('/clientes/:id', async (req, res) => {
@@ -46,6 +67,18 @@ app.put('/clientes/:id', async (req, res) => {
         res.status(HttpStatusCodes.BadRequest.code).json({
             error: `Parece que hay algo mal en tu consulta`,
         })
+    }
+})
+
+app.delete('/clientes/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const client = await prisma.e01_cliente.delete({
+            where: { nro_cliente: Number(id) },
+        })
+        res.json(client)
+    } catch (error) {
+        res.status(404).json({ error: `El cliente con ID ${id} no existe` })
     }
 })
 
