@@ -178,3 +178,6 @@ ALTER TABLE E01_TELEFONO ADD CONSTRAINT FK_E01_TELEFONO_CLIENTE
 
 CREATE SEQUENCE nro_cliente_seq AS integer START 101 OWNED BY e01_cliente.nro_cliente;
 ALTER TABLE e01_cliente ALTER COLUMN nro_cliente SET DEFAULT nextval('nro_cliente_seq');
+
+CREATE SEQUENCE codigo_producto_seq AS integer START 101 OWNED BY e01_producto.codigo_producto;
+ALTER TABLE e01_producto ALTER COLUMN codigo_producto SET DEFAULT nextval('codigo_producto_seq');

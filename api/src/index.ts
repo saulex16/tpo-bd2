@@ -7,6 +7,7 @@ const app = express()
 
 app.use(express.json())
 
+// Clientes
 app.get('/clientes', async (req, res) => {
     const clients = await prisma.e01_cliente.findMany()
     res.json(clients)
@@ -19,16 +20,14 @@ app.get('/clientes/:id', async (req, res) => {
         where: { nro_cliente: Number(id) },
     })
 
-    if (!client)
+    if (!client) {
         res.status(HttpStatusCodes.NotFound.code).json({
             error: `El cliente con ID ${id} no existe`,
         })
+        return
+    }
 
     res.json(client)
-    const clients = await prisma.e01_cliente.findUnique({
-        where: { nro_cliente: Number(id) },
-    })
-    res.json(clients)
 })
 
 app.post('/clientes', async (req, res) => {
@@ -44,7 +43,9 @@ app.post('/clientes', async (req, res) => {
         })
         res.json(client)
     } catch (error) {
-        res.status(400).json({ error: error })
+        res.status(HttpStatusCodes.BadRequest.code).json({
+            error: error,
+        })
     }
 })
 
@@ -78,7 +79,9 @@ app.delete('/clientes/:id', async (req, res) => {
         })
         res.json(client)
     } catch (error) {
-        res.status(404).json({ error: `El cliente con ID ${id} no existe` })
+        res.status(HttpStatusCodes.BadRequest.code).json({
+            error: `El cliente con ID ${id} no existe`,
+        })
     }
 })
 
@@ -87,6 +90,7 @@ app.get('/productos', async (req, res) => {
     res.json(products)
 })
 
+// Productos
 app.get('/productos/:id', async (req, res) => {
     const { id } = req.params
 
@@ -94,12 +98,35 @@ app.get('/productos/:id', async (req, res) => {
         where: { codigo_producto: Number(id) },
     })
 
-    if (!product)
+    if (!product) {
         res.status(HttpStatusCodes.NotFound.code).json({
             error: `El producto con ID ${id} no existe`,
         })
+        return
+    }
 
     res.json(product)
+})
+
+app.post('/productos', async (req, res) => {
+    const { marca, nombre, descripcion, precio, stock } = req.body
+    try {
+        const product = await prisma.e01_producto.create({
+            data: {
+                marca,
+                nombre,
+                descripcion,
+                precio,
+                stock,
+            },
+        })
+
+        res.json(product)
+    } catch (error) {
+        res.status(HttpStatusCodes.BadRequest.code).json({
+            error: error,
+        })
+    }
 })
 
 app.put('/productos/:id', async (req, res) => {
@@ -121,6 +148,20 @@ app.put('/productos/:id', async (req, res) => {
     } catch (error) {
         res.status(HttpStatusCodes.BadRequest.code).json({
             error: `Parece que hay algo mal con tu consulta`,
+        })
+    }
+})
+
+app.delete('/productos/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const product = await prisma.e01_producto.delete({
+            where: { codigo_producto: Number(id) },
+        })
+        res.json(product)
+    } catch (error) {
+        res.status(HttpStatusCodes.BadRequest.code).json({
+            error: `El producto con ID ${id} no existe`,
         })
     }
 })
