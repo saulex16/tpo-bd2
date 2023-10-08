@@ -8,7 +8,7 @@ datasource db {
 }
 
 model e01_cliente {
-  nro_cliente  Int            @id(map: "pk_e01_cliente")
+  nro_cliente  Int            @id(map: "pk_e01_cliente") @default(autoincrement())
   nombre       String         @db.VarChar(45)
   apellido     String         @db.VarChar(45)
   direccion    String         @db.VarChar(45)

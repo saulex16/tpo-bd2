@@ -175,3 +175,6 @@ ALTER TABLE E01_TELEFONO ADD CONSTRAINT FK_E01_TELEFONO_CLIENTE
     REFERENCES E01_CLIENTE(nro_cliente)
 
 ;
+
+CREATE SEQUENCE nro_cliente_seq AS integer START 101 OWNED BY e01_cliente.nro_cliente;
+ALTER TABLE e01_cliente ALTER COLUMN nro_cliente SET DEFAULT nextval('nro_cliente_seq');
