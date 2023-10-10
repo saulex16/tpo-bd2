@@ -23,7 +23,7 @@ API realizada con [Express.js](https://expressjs.com/es/) y [Prisma](https://www
     sudo apt install npm
     ```
 
-2. Configurar y ejecutar una base de datos que contenga el esquema dado por `schema.sql` en `resources`.
+2. Configurar y ejecutar una base de datos que contenga el esquema dado por `schema.sql` en `resources/`.
 
 3. Clonar el repositorio:
 
@@ -31,7 +31,7 @@ API realizada con [Express.js](https://expressjs.com/es/) y [Prisma](https://www
     git clone git@github.com:saulex16/tpo-bd2.git
     ```
 
-4. En `api` crear un archivo `.env` que contenga la url de la base de datos que se usará para ejecutar la API:
+4. En `api/` crear un archivo `.env` que contenga la url de la base de datos que se usará para ejecutar la API:
 
     ```
     # PostgreSQL database url
@@ -41,7 +41,7 @@ API realizada con [Express.js](https://expressjs.com/es/) y [Prisma](https://www
     MONGODB_URL=
     ```
 
-5. En `api` ejecutar:
+5. En `api/` ejecutar:
 
     ```bash
     npm install
