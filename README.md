@@ -11,9 +11,9 @@ API realizada con [Express.js](https://expressjs.com/es/) y [Prisma](https://www
 
 ## Contenidos
 
-- Dentro de `api` se encuentra la implementación de la API.
-- Dentro de `db-queries` se encuentran las consultas SQL y las vistas pedidas.
-- Dentro de `resources` se encuentra el esquema SQL de Facturación, junto a un script para poblar las tablas de la misma.
+- Dentro de `api/` se encuentra la implementación de la API.
+- Dentro de `db-queries/` se encuentran las consultas SQL y las vistas pedidas.
+- Dentro de `resources/` se encuentra el esquema SQL de Facturación, junto a un script para poblar las tablas de la misma.
 
 ## Instalación
 
@@ -49,7 +49,7 @@ API realizada con [Express.js](https://expressjs.com/es/) y [Prisma](https://www
 
 ## Ejecución
 
-Para correr el servidor, en `api` ejecutar:
+Para correr el servidor, en `api/` ejecutar:
 
 ```bash
 npm run dev
@@ -103,3 +103,4 @@ Se puede acceder a la API del servidor mediante los siguientes endpoints:
 ### `DELETE`
 
 - `/clientes/:id`: Borra un cliente existente por su `id`
+- `/productos/:id`: Borra un producto existente por su `id`
