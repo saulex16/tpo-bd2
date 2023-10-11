@@ -44,7 +44,7 @@ app.post('/clientes', async (req, res) => {
         res.json(client)
     } catch (error) {
         res.status(HttpStatusCodes.BadRequest.code).json({
-            error: error,
+            error: `Parece que hay algo mal con tu consulta`,
         })
     }
 })
@@ -63,7 +63,7 @@ app.put('/clientes/:id', async (req, res) => {
             },
         })
 
-        res.json(client)
+        res.status(HttpStatusCodes.Created.code).json(client)
     } catch (error) {
         res.status(HttpStatusCodes.BadRequest.code).json({
             error: `Parece que hay algo mal en tu consulta`,
@@ -121,10 +121,10 @@ app.post('/productos', async (req, res) => {
             },
         })
 
-        res.json(product)
+        res.status(HttpStatusCodes.Created.code).json(product)
     } catch (error) {
         res.status(HttpStatusCodes.BadRequest.code).json({
-            error: error,
+            error: `Parece que hay algo mal con tu consulta`,
         })
     }
 })
@@ -144,7 +144,7 @@ app.put('/productos/:id', async (req, res) => {
             },
         })
 
-        res.json(product)
+        res.status(HttpStatusCodes.Created.code).json(product)
     } catch (error) {
         res.status(HttpStatusCodes.BadRequest.code).json({
             error: `Parece que hay algo mal con tu consulta`,
@@ -160,7 +160,7 @@ app.delete('/productos/:id', async (req, res) => {
         })
         res.json(product)
     } catch (error) {
-        res.status(HttpStatusCodes.BadRequest.code).json({
+        res.status(HttpStatusCodes.NotFound.code).json({
             error: `El producto con ID ${id} no existe`,
         })
     }
