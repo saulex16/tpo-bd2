@@ -9,55 +9,25 @@ API realizada con [Express.js](https://expressjs.com/es/) y [Prisma](https://www
 - Elian Paredes n°62504
 - Nicolás Margenat n°62028
 
-## Contenidos
+## Estructura del proyecto
 
 - Dentro de `api/` se encuentra la implementación de la API.
-- Dentro de `db-queries/` se encuentran las consultas SQL y las vistas pedidas.
-- Dentro de `resources/` se encuentra el esquema SQL de Facturación, junto a un script para poblar las tablas de la misma.
+- `psql/`:  
+    - `init.sql` se encarga de crear los esquemas y poblarlos
+    - `queries.sql` contiene las queries pedidas
 
 ## Instalación
-
-1. Para correr este proyecto, se necesita la herramienta [npm](https://www.npmjs.com/) para instalar dependencias:
-
-    ```bash
-    sudo apt install npm
-    ```
-
-2. Configurar y ejecutar una base de datos que contenga el esquema dado por `schema.sql` en `resources/`.
-
-3. Clonar el repositorio:
+1. Ejecutar [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+2. Ejecutar desde la carpeta raíz el siguiente comando:
 
     ```bash
-    git clone git@github.com:saulex16/tpo-bd2.git
-    ```
+    docker-compose up
+    ```  
+3. ¡Listo! Ahora en `localhost:3000` estará corriendo la api.
 
-4. En `api/` crear un archivo `.env` que contenga la url de la base de datos que se usará para ejecutar la API:
+**Nota**: En caso de querer borrar el contenedor ejecutar `docker-compose down --volumes` desde la carpeta raíz del proyecto.
 
-    ```
-    # PostgreSQL database url
-    POSTGRESQL_URL=postgresql://{user}:{pass}@{host}:{port}/{database}
-
-    # MongoDB database url
-    MONGODB_URL=
-    ```
-
-5. En `api/` ejecutar:
-
-    ```bash
-    npm install
-    ```
-
-## Ejecución
-
-Para correr el servidor, en `api/` ejecutar:
-
-```bash
-npm run dev
-```
-
-El servidor está ahora corriendo en `http://localhost:3000`
-
-## Uso de la API
+## API Endpoints
 
 Se puede acceder a la API del servidor mediante los siguientes endpoints:
 
