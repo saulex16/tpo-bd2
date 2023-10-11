@@ -1,0 +1,26 @@
+version: "1"
+services:
+  api:
+    restart: on-failure
+    build: ./api/
+    depends_on:
+      - psql
+    ports:
+      - "3000:3000"
+    command: npm run dev
+    environment:
+      POSTGRESQL_URL: postgresql://user:pass@psql:5432/db
+    volumes:
+      - ./api/:/app/
+      - /app/node_modules
+
+  psql:
+    image: postgres:alpine3.17
+    ports:
+      - "35432:5432"
+    volumes:
+      - ./psql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: db
