@@ -6,8 +6,10 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN npm install
-
 EXPOSE 3000
 
+RUN apk --update add postgresql-client
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/community' >> /etc/apk/repositories && apk add mongodb-tools
+RUN npm install
 RUN npx prisma generate
+RUN chmod u+x ./migrate.sh
