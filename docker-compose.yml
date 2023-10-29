@@ -24,9 +24,11 @@ services:
       - mongo
     ports:
       - "3000:3000"
+      - "3001:3001"
     command: sh -c "./migrate.sh && npm run dev"
     environment:
       POSTGRESQL_URL: postgresql://user:pass@psql:5432/db
+      MONGO_URL: mongodb://@mongo:27017/facturacion?directConnection=true
     volumes:
       - ./api/:/app/
       - /app/node_modules

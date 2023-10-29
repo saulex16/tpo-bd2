@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../node_modules/@prisma/mongodb/client"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGO_URL")
+}
+
+type ClientesTelefono {
+  codigo_area  Int
+  nro_telefono Int
+  tipo         String
+}
+
+type FacturasDetalleFactura {
+  id              Int @map("_id")
+  cantidad        Int
+  codigo_producto Int
+}
+
+model clientes {
+  id        Int                @id @map("_id")
+  activo    Int
+  apellido  String
+  direccion String
+  nombre    String
+  telefono  ClientesTelefono[]
+}
+
+model facturas {
+  id              Int                      @id @map("_id")
+  detalle_factura FacturasDetalleFactura[]
+  fecha           String
+  iva             Int
+  nro_cliente     Int
+  total_con_iva   Float
+  total_sin_iva  Float
+}
+
+model productos {
+  id          Int    @id @map("_id")
+  descripcion String
+  marca       String
+  nombre      String
+  precio      Float
+  stock       Int
+}
