@@ -1,6 +1,6 @@
 # Base de Datos II - TPO
 
-API realizada con [Express.js](https://expressjs.com/es/) y [Prisma](https://www.prisma.io/) para la modificación de clientes y productos del esquema de Facturación. Además, se encuentran las consultas SQL pedidas.
+APIs realizadas con [Express.js](https://expressjs.com/es/) y [Prisma](https://www.prisma.io/) para la modificación de clientes y productos del esquema de Facturación. Las mismas mantienen sus propias bases de datos ([PostgreSQL](https://www.postgresql.org/) y [MongoDB](https://www.mongodb.com/es), respectivamente) Además, se encuentran las consultas SQL y NoSQL pedidas.
 
 ## Integrantes
 
@@ -11,7 +11,7 @@ API realizada con [Express.js](https://expressjs.com/es/) y [Prisma](https://www
 
 ## Estructura del proyecto
 
-- Dentro de `api/` se encuentra la implementación de la API.
+- Dentro de `api/` se encuentra la implementación de ambas APIs.
 - `psql/`:  
     - `init.sql` se encarga de crear los esquemas y poblarlos
     - `queries.sql` contiene las queries pedidas
@@ -23,13 +23,13 @@ API realizada con [Express.js](https://expressjs.com/es/) y [Prisma](https://www
     ```bash
     docker-compose up
     ```  
-3. ¡Listo! Ahora en `localhost:3000` estará corriendo la api.
+3. ¡Listo! Ahora en `localhost:3000` estará corriendo la API con PostgreSQL, mientras que en `localhost:4000` estará la que utiliza MongoDB.
 
 **Nota**: En caso de querer borrar el contenedor ejecutar `docker-compose down --volumes` desde la carpeta raíz del proyecto.
 
 ## API Endpoints
 
-Se puede acceder a la API del servidor mediante los siguientes endpoints:
+Se puede acceder a las APIs del servidor mediante los siguientes endpoints en común:
 
 ### `GET`
 
