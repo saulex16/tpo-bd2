@@ -4,11 +4,11 @@ import { HttpStatusCodes } from './utils/http-status-codes'
 const POSTGRESQL_PORT = 3000
 const MONGODB_PORT = 3001
 
-const { PrismaClient: PrismaClientMongo } = require('@prisma/mongodb/client');
-const { PrismaClient: PrismaClientPostgres } = require('@prisma/postgresql/client');
+const { PrismaClient: PrismaClientMongo } = require('@prisma/mongodb/client')
+const { PrismaClient: PrismaClientPostgres } = require('@prisma/postgresql/client')
 
-const prismaMongo = new PrismaClientMongo();
-const prismaPostgres = new PrismaClientPostgres();
+const prismaMongo = new PrismaClientMongo()
+const prismaPostgres = new PrismaClientPostgres()
 
 const appPostgres = express()
 const appMongo = express()
@@ -185,7 +185,7 @@ appMongo.get('/clientes/:id', async (req, res) => {
     const { id } = req.params
 
     const client = await prismaMongo.clientes.findUnique({
-        where: { nro_cliente: Number(id) },
+        where: { id: id },
     })
 
     if (!client) {
@@ -201,18 +201,19 @@ appMongo.get('/clientes/:id', async (req, res) => {
 appMongo.post('/clientes', async (req, res) => {
     const { nombre, apellido, direccion, activo } = req.body
     try {
-        const client = await prismaMongo.clientes.create({
+        const sequence = await prismaMongo.sequence.updateMany({
             data: {
-                nombre,
-                apellido,
-                direccion,
-                activo,
+                nro_cliente_seq: {
+                    increment: 1,
+                },
             },
         })
-        res.json(client)
+
+        res.json(sequence)
     } catch (error) {
         res.status(HttpStatusCodes.BadRequest.code).json({
-            error: `Parece que hay algo mal con tu consulta`,
+            message: `Parece que hay algo mal con tu consulta`,
+            error
         })
     }
 })
@@ -222,7 +223,7 @@ appMongo.put('/clientes/:id', async (req, res) => {
     const { nombre, apellido, direccion, activo } = req.body
     try {
         const client = await prismaMongo.clientes.update({
-            where: { nro_cliente: Number(id) },
+            where: { id: id },
             data: {
                 nombre: nombre,
                 apellido: apellido,
@@ -243,7 +244,7 @@ appMongo.delete('/clientes/:id', async (req, res) => {
     const { id } = req.params
     try {
         const client = await prismaMongo.clientes.delete({
-            where: { nro_cliente: Number(id) },
+            where: { id: id },
         })
         res.json(client)
     } catch (error) {
@@ -253,17 +254,17 @@ appMongo.delete('/clientes/:id', async (req, res) => {
     }
 })
 
+// Productos
 appMongo.get('/productos', async (req, res) => {
-    const products = await prismaMongo.clientes.findMany()
+    const products = await prismaMongo.productos.findMany()
     res.json(products)
 })
 
-// Productos
 appMongo.get('/productos/:id', async (req, res) => {
     const { id } = req.params
 
     const product = await prismaMongo.productos.findUnique({
-        where: { codigo_producto: Number(id) },
+        where: { id: id },
     })
 
     if (!product) {
@@ -302,7 +303,7 @@ appMongo.put('/productos/:id', async (req, res) => {
     const { marca, nombre, descripcion, precio, stock } = req.body
     try {
         const product = await prismaMongo.productos.update({
-            where: { codigo_producto: Number(id) },
+            where: { id: id },
             data: {
                 marca: marca,
                 nombre: nombre,
@@ -323,8 +324,8 @@ appMongo.put('/productos/:id', async (req, res) => {
 appMongo.delete('/productos/:id', async (req, res) => {
     const { id } = req.params
     try {
-        const product = await prismaMongo.e01_producto.delete({
-            where: { codigo_producto: Number(id) },
+        const product = await prismaMongo.productos.delete({
+            where: { id: id },
         })
         res.json(product)
     } catch (error) {
@@ -334,11 +335,12 @@ appMongo.delete('/productos/:id', async (req, res) => {
     }
 })
 
-
 const server_psql = appPostgres.listen(POSTGRESQL_PORT, () =>
-    console.log(`PostgreSQL server is running on http://localhost:${POSTGRESQL_PORT}`)
+    console.log(
+        `PostgreSQL server is running on http://localhost:${POSTGRESQL_PORT}`
+    )
 )
 
 const server_mongo = appMongo.listen(MONGODB_PORT, () => {
-    console.log(`MongoDB server is running on http://localhost:${MONGODB_PORT}`);
-});
+    console.log(`MongoDB server is running on http://localhost:${MONGODB_PORT}`)
+})
