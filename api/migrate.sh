@@ -13,7 +13,7 @@ done
 
 psql postgresql://user:pass@psql:5432/db -c "
     COPY (SELECT row_to_json(results)
-        FROM (SELECT nro_cliente AS _id,
+        FROM (SELECT nro_cliente,
             nombre,
             apellido,
             direccion,
@@ -26,23 +26,41 @@ psql postgresql://user:pass@psql:5432/db -c "
     ) TO '/tmp/clientes.json' WITH (FORMAT text, HEADER FALSE);
 
     COPY (SELECT row_to_json(results)
-        FROM (SELECT  nro_factura  AS _id,
+        FROM (SELECT  
+            nro_factura,
             fecha,
             total_sin_iva,
             iva,
             total_con_iva,
             nro_cliente,
             (SELECT(array_to_json(array_agg(detalle)))
-                FROM (SELECT nro_item as _id, cantidad, codigo_producto
+                FROM (SELECT nro_item, cantidad, codigo_producto
                     FROM e01_detalle_factura
             WHERE e01_factura.nro_factura = e01_detalle_Factura.nro_factura) detalle) AS detalle_factura
         FROM e01_factura) results
     ) TO '/tmp/facturas.json' WITH (FORMAT text, HEADER FALSE);
 
     COPY (SELECT row_to_json(results)
-        FROM (SELECT codigo_producto AS _id, marca, nombre, descripcion, precio, stock
+        FROM (SELECT codigo_producto, marca, nombre, descripcion, precio, stock
         FROM e01_producto) results
     ) TO '/tmp/productos.json' WITH (FORMAT text, HEADER FALSE);
+
+    COPY (SELECT row_to_json(results)
+        FROM (SELECT 
+            (SELECT nro_cliente
+                FROM e01_cliente
+                ORDER BY nro_cliente DESC
+                LIMIT 1) AS nro_cliente_seq,
+            (SELECT nro_factura
+                FROM e01_factura
+                ORDER BY nro_factura DESC
+                LIMIT 1) AS nro_factura_seq,
+            (SELECT codigo_producto
+                FROM e01_producto
+                ORDER BY codigo_producto DESC
+                LIMIT 1) AS codigo_producto_seq)
+        results
+    ) TO '/tmp/sequence.json' WITH (FORMAT text, HEADER FALSE);
 "
 
 cd /tmp/
@@ -51,8 +69,9 @@ echo "Importing into mongo..."
 mongoimport -h mongo --db facturacion --collection clientes --file clientes.json --type=json
 mongoimport -h mongo --db facturacion --collection productos --file productos.json --type=json
 mongoimport -h mongo --db facturacion --collection facturas --file facturas.json --type=json
+mongoimport -h mongo --db facturacion --collection sequence --file sequence.json --type=json
 
 echo "Cleaning..."
-rm -f clientes.json productos.json facturas.json
+rm -f clientes.json productos.json facturas.json sequence.json
 
 echo "Done"
