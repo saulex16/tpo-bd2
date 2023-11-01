@@ -1,4 +1,5 @@
-version: "1"
+version: '3.7'
+
 services:
   psql:
     image: postgres:alpine3.17
@@ -13,9 +14,14 @@ services:
       POSTGRES_DB: db
 
   mongo:
-    image: mongo:latest
+    build: ./mongo/
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_REPLICA_HOST: mongo
+      MONGO_REPLICA_PORT: 27017
     ports:
-      - "27017:27017"
+      - '27017:27017'
 
   api:
     build: ./api/
@@ -28,11 +34,12 @@ services:
     command: sh -c "./migrate.sh && npm run dev"
     environment:
       POSTGRESQL_URL: postgresql://user:pass@psql:5432/db
-      MONGO_URL: mongodb://@mongo:27017/facturacion?directConnection=true
+      MONGO_URL: mongodb://user:pass@mongo:27017/facturacion?authSource=admin
     volumes:
       - ./api/:/app/
       - /app/node_modules
       - tmp:/tmp
+      
 volumes:
     tmp: 
     
