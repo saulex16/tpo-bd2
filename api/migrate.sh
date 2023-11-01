@@ -47,6 +47,7 @@ psql postgresql://user:pass@psql:5432/db -c "
 
     COPY (SELECT row_to_json(results)
         FROM (SELECT 
+            0 AS seq_id,
             (SELECT nro_cliente
                 FROM e01_cliente
                 ORDER BY nro_cliente DESC

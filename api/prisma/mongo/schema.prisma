@@ -10,51 +10,52 @@ datasource db {
 }
 
 type ClientesTelefono {
-  codigo_area  Int
-  nro_telefono Int
-  tipo         String
+  codigo_area         Int
+  nro_telefono        Int
+  tipo                String
 }
 
 type FacturasDetalleFactura {
-  id              Int @map("_id") 
-  cantidad        Int
-  codigo_producto Int
+  id                  Int                       @map("_id") 
+  cantidad            Int
+  codigo_producto     Int
 }
 
 model sequence {
-  id                  String      @id @default(auto()) @map("_id") @db.ObjectId
+  id                  String                    @id @default(auto()) @map("_id") @db.ObjectId
   nro_cliente_seq     Int
   nro_factura_seq     Int
   codigo_producto_seq Int
+  seq_id              Int                       @unique
 }
 
 model clientes {
-  id          String              @id @default(auto()) @map("_id") @db.ObjectId
-  nro_cliente Int
-  activo      Int
-  apellido    String
-  direccion   String
-  nombre      String
-  telefono    ClientesTelefono[]
+  id                  String                    @id @default(auto()) @map("_id") @db.ObjectId
+  nro_cliente         Int                       @unique
+  activo              Int
+  apellido            String
+  direccion           String
+  nombre              String
+  telefono            ClientesTelefono[]
 }
 
 model facturas {
-  id              String          @id @default(auto()) @map("_id") @db.ObjectId
-  nro_factura     Int
-  detalle_factura FacturasDetalleFactura[]
-  fecha           String
-  iva             Int
-  nro_cliente     Int
-  total_con_iva   Float
-  total_sin_iva   Float
+  id                  String                    @id @default(auto()) @map("_id") @db.ObjectId
+  nro_factura         Int                       @unique
+  detalle_factura     FacturasDetalleFactura[]
+  fecha               String
+  iva                 Int
+  nro_cliente         Int
+  total_con_iva       Float
+  total_sin_iva       Float
 }
 
 model productos {
-  id            String            @id @default(auto()) @map("_id") @db.ObjectId
-  nro_producto  Int
-  descripcion   String
-  marca         String
-  nombre        String
-  precio        Float
-  stock         Int
+  id                  String                    @id @default(auto()) @map("_id") @db.ObjectId
+  codigo_producto     Int                       @unique
+  descripcion         String
+  marca               String
+  nombre              String
+  precio              Float
+  stock               Int
 }
