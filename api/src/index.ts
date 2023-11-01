@@ -1,11 +1,10 @@
 import express from 'express'
 import { HttpStatusCodes } from './utils/http-status-codes'
+import { PrismaClient as PrismaClientMongo } from '@prisma/mongodb/client'
+import { PrismaClient as PrismaClientPostgres } from '@prisma/postgresql/client'
 
 const POSTGRESQL_PORT = 3000
 const MONGODB_PORT = 3001
-
-const { PrismaClient: PrismaClientMongo } = require('@prisma/mongodb/client')
-const { PrismaClient: PrismaClientPostgres } = require('@prisma/postgresql/client')
 
 const prismaMongo = new PrismaClientMongo()
 const prismaPostgres = new PrismaClientPostgres()
@@ -201,19 +200,39 @@ appMongo.get('/clientes/:id', async (req, res) => {
 appMongo.post('/clientes', async (req, res) => {
     const { nombre, apellido, direccion, activo } = req.body
     try {
-        const sequence = await prismaMongo.sequence.updateMany({
-            data: {
-                nro_cliente_seq: {
-                    increment: 1,
+        const createdClient = await prismaMongo.$transaction(async (tx) => {
+            const sequence = await tx.sequence.update({
+                where: {
+                    seq_id: 0,
                 },
-            },
+                data: {
+                    nro_cliente_seq: {
+                        increment: 1,
+                    },
+                },
+            })
+
+            const nro_cliente_seq = sequence.nro_cliente_seq
+
+            const client = await tx.clientes.create({
+                data: {
+                    nro_cliente: nro_cliente_seq,
+                    nombre,
+                    apellido,
+                    direccion,
+                    activo: Number(activo),
+                    telefono: [],
+                },
+            })
+
+            return client
         })
 
-        res.json(sequence)
+        res.status(HttpStatusCodes.Created.code).json(createdClient)
     } catch (error) {
         res.status(HttpStatusCodes.BadRequest.code).json({
             message: `Parece que hay algo mal con tu consulta`,
-            error
+            error,
         })
     }
 })
@@ -280,17 +299,35 @@ appMongo.get('/productos/:id', async (req, res) => {
 appMongo.post('/productos', async (req, res) => {
     const { marca, nombre, descripcion, precio, stock } = req.body
     try {
-        const product = await prismaMongo.productos.create({
-            data: {
-                marca,
-                nombre,
-                descripcion,
-                precio,
-                stock,
-            },
+        const createdProduct = await prismaMongo.$transaction(async (tx) => {
+            const sequence = await tx.sequence.update({
+                where: {
+                    seq_id: 0,
+                },
+                data: {
+                    codigo_producto_seq: {
+                        increment: 1,
+                    },
+                },
+            })
+
+            const codigo_producto_seq = sequence.codigo_producto_seq
+
+            const product = await prismaMongo.productos.create({
+                data: {
+                    codigo_producto: codigo_producto_seq,
+                    marca,
+                    nombre,
+                    descripcion,
+                    precio: Number(precio),
+                    stock: Number(stock),
+                },
+            })
+
+            return product
         })
 
-        res.status(HttpStatusCodes.Created.code).json(product)
+        res.status(HttpStatusCodes.Created.code).json(createdProduct)
     } catch (error) {
         res.status(HttpStatusCodes.BadRequest.code).json({
             error: `Parece que hay algo mal con tu consulta`,
