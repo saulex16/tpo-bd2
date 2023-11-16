@@ -3,7 +3,8 @@
 db.clientes.aggregate([
   {
     $match: {
-      $and: [{ nombre: "Wanda" }, { apellido: "Baker" }],
+      nombre: "Wanda",
+      apellido: "Baker",
     },
   },
   {
@@ -12,7 +13,7 @@ db.clientes.aggregate([
   {
     $project: {
       _id: 0,
-      nro_cliente: "$_id",
+      nro_cliente: 1,
       nro_telefono: { $toInt: "$telefono.nro_telefono" },
     },
   },
@@ -24,7 +25,7 @@ db.facturas.aggregate([
     $lookup: {
       from: "clientes",
       localField: "nro_cliente",
-      foreignField: "_id",
+      foreignField: "nro_cliente",
       as: "clientes",
     },
   },
@@ -33,7 +34,7 @@ db.facturas.aggregate([
   },
   {
     $group: {
-      _id: "$nro_cliente",
+      _id: "$clientes.nro_cliente",
       nombre: { $first: "$clientes.nombre" },
       apellido: { $first: "$clientes.apellido" },
       direccion: { $first: "$clientes.direccion" },
@@ -57,7 +58,7 @@ db.clientes.aggregate([
   {
     $lookup: {
       from: "facturas",
-      localField: "_id",
+      localField: "nro_cliente",
       foreignField: "nro_cliente",
       as: "facturas",
     },
@@ -77,7 +78,7 @@ db.clientes.aggregate([
   {
     $project: {
       _id: 0,
-      nro_cliente: "$_id",
+      nro_cliente: 1,
       nombre: 1,
       apellido: 1,
       direccion: 1,
@@ -87,41 +88,29 @@ db.clientes.aggregate([
 ]);
 
 // 4. Seleccionar los productos que han sido facturados al menos 1 vez.
-db.facturas.aggregate([
-  {
-    $unwind: "$detalle_factura",
-  },
-  {
-    $project: {
-      _id: 0,
-      codigo_producto: { $toInt: "$detalle_factura.codigo_producto" },
-    },
-  },
-  {
-    $group: {
-      _id: "$codigo_producto",
-    },
-  },
+db.productos.aggregate([
   {
     $lookup: {
-      from: "productos",
-      localField: "_id",
-      foreignField: "_id",
-      as: "productos_facturados",
+      from: "facturas",
+      localField: "codigo_producto",
+      foreignField: "detalle_factura.codigo_producto",
+      as: "facturas",
     },
   },
   {
-    $unwind: "$productos_facturados",
+    $match: {
+      facturas: { $exists: true, $ne: [] },
+    },
   },
   {
     $project: {
       _id: 0,
-      codigo_producto: "$_id",
-      marca: "$productos_facturados.marca",
-      nombre: "$productos_facturados.nombre",
-      descripcion: "$productos_facturados.descripcion",
-      precio: "$productos_facturados.precio",
-      stock: "$productos_facturados.stock",
+      codigo_producto: 1,
+      marca: 1,
+      nombre: 1,
+      descripcion: 1,
+      precio: 1,
+      stock: 1,
     },
   },
 ]);
@@ -137,7 +126,7 @@ db.clientes.aggregate([
   {
     $project: {
       _id: 0,
-      nro_cliente: "$_id",
+      nro_cliente: 1,
       nombre: 1,
       apellido: 1,
       direccion: 1,

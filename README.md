@@ -12,18 +12,20 @@ APIs realizadas con [Express.js](https://expressjs.com/es/) y [Prisma](https://w
 ## Estructura del proyecto
 
 - Dentro de `api/` se encuentra la implementación de ambas APIs.
-- `psql/`:  
-    - `init.sql` se encarga de crear los esquemas y poblarlos
-    - `queries.sql` contiene las queries pedidas
+- `psql/`:
+  - `init.sql` se encarga de crear los esquemas y poblarlos
+  - `queries.sql` contiene las queries pedidas
 
 ## Instalación
+
 1. Ejecutar [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 2. Ejecutar desde la carpeta raíz el siguiente comando:
 
-    ```bash
-    docker-compose up
-    ```  
-3. ¡Listo! Ahora en `localhost:3000` estará corriendo la API con PostgreSQL, mientras que en `localhost:4000` estará la que utiliza MongoDB.
+   ```bash
+   docker-compose up
+   ```
+
+3. ¡Listo! Ahora en `localhost:3000` estará corriendo la API con PostgreSQL, mientras que en `localhost:3001` estará la que utiliza MongoDB.
 
 **Nota**: En caso de querer borrar el contenedor ejecutar `docker-compose down --volumes` desde la carpeta raíz del proyecto.
 
