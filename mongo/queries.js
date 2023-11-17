@@ -259,30 +259,41 @@ db.facturas.aggregate([
 
 // VISTAS
 // 1. Se debe realizar una vista que devuelva las facturas ordenadas por fecha.
-db.createView("facturas_ordenadas_por_fecha", "e01_factura", [
+db.createView("facturas_ordenadas_por_fecha", "facturas", [
   {
     $sort: { fecha: 1 },
+  },
+  {
+    $project: {
+      _id: 0,
+    },
   },
 ]);
 
 // 2. Se necesita una vista que devuelva todos los productos que aún no han sido facturados.
-db.createView("productos_no_facturados", "e01_productos", [
+db.createView("productos_no_facturados", "productos", [
   {
     $lookup: {
       from: "facturas",
-      localField: "_id",
-      foreignField: "codigo_producto",
+      localField: "codigo_producto",
+      foreignField: "detalle_factura.codigo_producto",
       as: "facturas",
     },
   },
   {
     $match: {
-      facturas: { $size: 0 },
+      facturas: [],
     },
   },
   {
     $project: {
-      facturas: 0,
+      _id: 0,
+      codigo_producto: 1,
+      marca: 1,
+      nombre: 1,
+      descripcion: 1,
+      precio: 1,
+      stock: 1,
     },
   },
 ]);
