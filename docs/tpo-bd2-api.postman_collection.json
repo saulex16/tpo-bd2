@@ -14,6 +14,55 @@
 					"item": [
 						{
 							"name": "Obtener productos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var template = `",
+											"<style type=\"text/css\">",
+											"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+											"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+											"    .tftable tr {background-color:#ffffff;}",
+											"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+											"    .tftable tr:hover {background-color:#e0ffff;}",
+											"</style>",
+											"",
+											"<table class=\"tftable\" border=\"1\">",
+											"    <tr>",
+											"        <th>ID</th>",
+											"        <th>Código Producto</th>",
+											"        <th>Descripción</th>",
+											"        <th>Marca</th>",
+											"        <th>Nombre</th>",
+											"        <th>Precio</th>",
+											"        <th>Stock</th>",
+											"    </tr>",
+											"    ",
+											"    {{#each response}}",
+											"        <tr>",
+											"            <td>{{id}}</td>",
+											"            <td>{{codigo_producto}}</td>",
+											"            <td>{{descripcion}}</td>",
+											"            <td>{{marca}}</td>",
+											"            <td>{{nombre}}</td>",
+											"            <td>{{precio}}</td>",
+											"            <td>{{stock}}</td>",
+											"        </tr>",
+											"    {{/each}}",
+											"</table>",
+											"`;",
+											"",
+											"function constructVisualizerPayload() {",
+											"    return {response: pm.response.json()};",
+											"}",
+											"",
+											"pm.visualizer.set(template, constructVisualizerPayload());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -59,19 +108,67 @@
 							"response": []
 						},
 						{
-							"name": "Producto 50",
+							"name": "Producto 101",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:{{mongo_port}}/productos/50",
+									"raw": "localhost:{{mongo_port}}/productos/101",
 									"host": [
 										"localhost"
 									],
 									"port": "{{mongo_port}}",
 									"path": [
 										"productos",
-										"50"
+										"101"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Producto 101",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"marca\": \"Lobortis Tellus Corp.\",\r\n    \"nombre\": \"apple\",\r\n    \"descripcion\": \"ut quam vel. Donec\",\r\n    \"precio\": 20.0,\r\n    \"stock\": 9\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{mongo_port}}/productos/101",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{mongo_port}}",
+									"path": [
+										"productos",
+										"101"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Producto 101",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:{{mongo_port}}/productos/101",
+									"host": [
+										"localhost"
+									],
+									"port": "{{mongo_port}}",
+									"path": [
+										"productos",
+										"101"
 									]
 								}
 							},
@@ -103,54 +200,6 @@
 								}
 							},
 							"response": []
-						},
-						{
-							"name": "Producto 50",
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"marca\": \"Lobortis Tellus Corp.\",\r\n    \"nombre\": \"apple\",\r\n    \"descripcion\": \"ut quam vel. Donec\",\r\n    \"precio\": 20.0,\r\n    \"stock\": 9\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:{{mongo_port}}/productos/50",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "{{mongo_port}}",
-									"path": [
-										"productos",
-										"50"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Producto 50",
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "localhost:{{mongo_port}}/productos/50",
-									"host": [
-										"localhost"
-									],
-									"port": "{{mongo_port}}",
-									"path": [
-										"productos",
-										"50"
-									]
-								}
-							},
-							"response": []
 						}
 					]
 				},
@@ -159,6 +208,53 @@
 					"item": [
 						{
 							"name": "Obtener clientes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var template = `",
+											"<style type=\"text/css\">",
+											"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+											"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+											"    .tftable tr {background-color:#ffffff;}",
+											"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+											"    .tftable tr:hover {background-color:#e0ffff;}",
+											"</style>",
+											"",
+											"<table class=\"tftable\" border=\"1\">",
+											"    <tr>",
+											"        <th>ID</th>",
+											"        <th>Nombre</th>",
+											"        <th>Apellido</th>",
+											"        <th>Dirección</th>",
+											"        <th>Activo</th>",
+											"        <th>Teléfono</th>",
+											"    </tr>",
+											"    ",
+											"    {{#each response}}",
+											"        <tr>",
+											"            <td>{{id}}</td>",
+											"            <td>{{nombre}}</td>",
+											"            <td>{{apellido}}</td>",
+											"            <td>{{direccion}}</td>",
+											"            <td>{{activo}}</td>",
+											"            <td>{{telefono.[0].codigo_area}}-{{telefono.[0].nro_telefono}}</td>",
+											"        </tr>",
+											"    {{/each}}",
+											"</table>",
+											"`;",
+											"",
+											"function constructVisualizerPayload() {",
+											"    return { response: pm.response.json() }",
+											"}",
+											"",
+											"pm.visualizer.set(template, constructVisualizerPayload());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -203,7 +299,7 @@
 							"response": []
 						},
 						{
-							"name": "Cliente 30",
+							"name": "Cliente 101",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -215,27 +311,27 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "localhost:{{mongo_port}}/clientes/30",
+									"raw": "localhost:{{mongo_port}}/clientes/101",
 									"host": [
 										"localhost"
 									],
 									"port": "{{mongo_port}}",
 									"path": [
 										"clientes",
-										"30"
+										"101"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Cliente 30",
+							"name": "Cliente 101",
 							"request": {
 								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"nombre\": \"Loremius\"\r\n}",
+									"raw": "{\r\n    \"nombre\": \"Ipsumius\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -243,7 +339,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:{{mongo_port}}/clientes/30",
+									"raw": "http://localhost:{{mongo_port}}/clientes/101",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -251,26 +347,45 @@
 									"port": "{{mongo_port}}",
 									"path": [
 										"clientes",
-										"30"
+										"101"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Cliente 30",
+							"name": "Cliente 101",
 							"request": {
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "localhost:{{mongo_port}}/clientes/30",
+									"raw": "localhost:{{mongo_port}}/clientes/101",
 									"host": [
 										"localhost"
 									],
 									"port": "{{mongo_port}}",
 									"path": [
 										"clientes",
-										"30"
+										"101"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cliente no existente",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:{{mongo_port}}/clientes/111111",
+									"host": [
+										"localhost"
+									],
+									"port": "{{mongo_port}}",
+									"path": [
+										"clientes",
+										"111111"
 									]
 								}
 							},
@@ -288,6 +403,51 @@
 					"item": [
 						{
 							"name": "Obtener productos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var template = `",
+											"<style type=\"text/css\">",
+											"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+											"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+											"    .tftable tr {background-color:#ffffff;}",
+											"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+											"    .tftable tr:hover {background-color:#e0ffff;}",
+											"</style>",
+											"",
+											"<table class=\"tftable\" border=\"1\">",
+											"    <tr>",
+											"        <th>Client Number</th>",
+											"        <th>Name</th>",
+											"        <th>Last Name</th>",
+											"        <th>Address</th>",
+											"        <th>Active</th>",
+											"    </tr>",
+											"    ",
+											"    {{#each response}}",
+											"        <tr>",
+											"            <td>{{nro_cliente}}</td>",
+											"            <td>{{nombre}}</td>",
+											"            <td>{{apellido}}</td>",
+											"            <td>{{direccion}}</td>",
+											"            <td>{{activo}}</td>",
+											"        </tr>",
+											"    {{/each}}",
+											"</table>",
+											"`;",
+											"",
+											"function constructVisualizerPayload() {",
+											"    return {response: pm.response.json()};",
+											"}",
+											"",
+											"pm.visualizer.set(template, constructVisualizerPayload());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -333,19 +493,67 @@
 							"response": []
 						},
 						{
-							"name": "Producto 50",
+							"name": "Producto 101",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:{{pg_port}}/productos/50",
+									"raw": "localhost:{{pg_port}}/productos/101",
 									"host": [
 										"localhost"
 									],
 									"port": "{{pg_port}}",
 									"path": [
 										"productos",
-										"50"
+										"101"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Producto 101",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"marca\": \"Lobortis Tellus Corp.\",\r\n    \"nombre\": \"apple\",\r\n    \"descripcion\": \"ut quam vel. Donec\",\r\n    \"precio\": 20.0,\r\n    \"stock\": 9\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{pg_port}}/productos/101",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{pg_port}}",
+									"path": [
+										"productos",
+										"101"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Producto 101",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:{{pg_port}}/productos/101",
+									"host": [
+										"localhost"
+									],
+									"port": "{{pg_port}}",
+									"path": [
+										"productos",
+										"101"
 									]
 								}
 							},
@@ -373,54 +581,6 @@
 									"path": [
 										"productos",
 										"111111"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Producto 50",
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"marca\": \"Lobortis Tellus Corp.\",\r\n    \"nombre\": \"apple\",\r\n    \"descripcion\": \"ut quam vel. Donec\",\r\n    \"precio\": 20.0,\r\n    \"stock\": 9\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:{{pg_port}}/productos/50",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "{{pg_port}}",
-									"path": [
-										"productos",
-										"50"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Producto 50",
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "localhost:{{pg_port}}/productos/50",
-									"host": [
-										"localhost"
-									],
-									"port": "{{pg_port}}",
-									"path": [
-										"productos",
-										"50"
 									]
 								}
 							},
@@ -545,6 +705,26 @@
 									"path": [
 										"clientes",
 										"30"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cliente no existente",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:{{pg_port}}/clientes/111111",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{pg_port}}",
+									"path": [
+										"clientes",
+										"111111"
 									]
 								}
 							},
