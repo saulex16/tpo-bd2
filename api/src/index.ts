@@ -184,7 +184,7 @@ appMongo.get('/clientes/:id', async (req, res) => {
     const { id } = req.params
 
     const client = await prismaMongo.clientes.findUnique({
-        where: { id: id },
+        where: { nro_cliente: Number(id) },
     })
 
     if (!client) {
@@ -242,7 +242,7 @@ appMongo.put('/clientes/:id', async (req, res) => {
     const { nombre, apellido, direccion, activo } = req.body
     try {
         const client = await prismaMongo.clientes.update({
-            where: { id: id },
+            where: { nro_cliente: Number(id) },
             data: {
                 nombre: nombre,
                 apellido: apellido,
@@ -263,7 +263,7 @@ appMongo.delete('/clientes/:id', async (req, res) => {
     const { id } = req.params
     try {
         const client = await prismaMongo.clientes.delete({
-            where: { id: id },
+            where: { nro_cliente: Number(id) },
         })
         res.json(client)
     } catch (error) {
