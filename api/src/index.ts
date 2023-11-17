@@ -283,7 +283,7 @@ appMongo.get('/productos/:id', async (req, res) => {
     const { id } = req.params
 
     const product = await prismaMongo.productos.findUnique({
-        where: { id: id },
+        where: { codigo_producto: Number(id) },
     })
 
     if (!product) {
@@ -340,7 +340,7 @@ appMongo.put('/productos/:id', async (req, res) => {
     const { marca, nombre, descripcion, precio, stock } = req.body
     try {
         const product = await prismaMongo.productos.update({
-            where: { id: id },
+            where: { codigo_producto: Number(id) },
             data: {
                 marca: marca,
                 nombre: nombre,
@@ -362,7 +362,7 @@ appMongo.delete('/productos/:id', async (req, res) => {
     const { id } = req.params
     try {
         const product = await prismaMongo.productos.delete({
-            where: { id: id },
+            where: { codigo_producto: Number(id) },
         })
         res.json(product)
     } catch (error) {
