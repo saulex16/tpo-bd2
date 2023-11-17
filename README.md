@@ -1,6 +1,6 @@
 # Base de Datos II - TPO
 
-APIs realizadas con [Express.js](https://expressjs.com/es/) y [Prisma](https://www.prisma.io/) para la modificación de clientes y productos del esquema de Facturación. Las mismas mantienen sus propias bases de datos ([PostgreSQL](https://www.postgresql.org/) y [MongoDB](https://www.mongodb.com/es), respectivamente) Además, se encuentran las consultas SQL y NoSQL pedidas.
+APIs realizadas con [Express.js](https://expressjs.com/es/) y [Prisma](https://www.prisma.io/) para la modificación de clientes y productos del esquema de Facturación. Las mismas mantienen sus propias bases de datos ([PostgreSQL](https://www.postgresql.org/) y [MongoDB](https://www.mongodb.com/es), respectivamente). Además, se encuentran las consultas SQL y NoSQL pedidas.
 
 ## Integrantes
 
@@ -12,6 +12,7 @@ APIs realizadas con [Express.js](https://expressjs.com/es/) y [Prisma](https://w
 ## Estructura del proyecto
 
 - Dentro de `api/` se encuentra la implementación de ambas APIs.
+- `docs/` contiene una colección de Postman preparada para realizar los testeos en los distintos endpoints que ofrecen las APIs.
 - `psql/`:
   - `init.sql` se encarga de crear los esquemas y poblarlos
   - `queries.sql` contiene las queries pedidas
@@ -19,13 +20,17 @@ APIs realizadas con [Express.js](https://expressjs.com/es/) y [Prisma](https://w
 ## Instalación
 
 1. Ejecutar [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-2. Ejecutar desde la carpeta raíz el siguiente comando:
-
+2. En caso de haber utilizado una versión anterior de este proyecto, es importante eliminar las imágenes generadas previamente:
+   ```bash
+   docker rmi tpo-bd2-mongo
+   docker rmi tpo-bd2-api
+   ```
+3. Ejecutar desde la carpeta raíz el siguiente comando para generar las imágenes actualizadas y construir las instancias requeridas:
    ```bash
    docker-compose up
    ```
 
-3. ¡Listo! Ahora en `localhost:3000` estará corriendo la API con PostgreSQL, mientras que en `localhost:3001` estará la que utiliza MongoDB.
+4. ¡Listo! Ahora en `localhost:3000` estará corriendo la API con PostgreSQL, mientras que en `localhost:3001` estará la que utiliza MongoDB.
 
 **Nota**: En caso de querer borrar el contenedor ejecutar `docker-compose down --volumes` desde la carpeta raíz del proyecto.
 
